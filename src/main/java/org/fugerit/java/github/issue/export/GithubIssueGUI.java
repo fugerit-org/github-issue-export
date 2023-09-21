@@ -14,6 +14,7 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
@@ -32,8 +33,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 
-import org.apache.commons.lang.StringUtils;
+import org.fugerit.java.core.lang.helpers.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +45,22 @@ import org.slf4j.LoggerFactory;
  */
 public class GithubIssueGUI extends JFrame implements WindowListener, ActionListener {
 
+	// code added to setup a basic conditional serialization - START
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+		// this class is conditionally serializable, depending on contained object
+		// special situation can be handleded using this method in future
+		out.defaultWriteObject();
+	}
+
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+		// this class is conditionally serializable, depending on contained object
+		// special situation can be handleded using this method in future
+		in.defaultReadObject();
+	}
+	
+	// code added to setup a basic conditional serialization - END
+	
 	protected static final Logger logger = LoggerFactory.getLogger(GithubIssueGUI.class);
 	
 	/**
@@ -52,23 +70,35 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 	
 	private Properties config;
 	
-	private JTextField inputProxyHost, inputProxyPort, inputProxyUser;
+	private JTextField inputProxyHost;
+	private JTextField inputProxyPort;
+	private JTextField inputProxyUser;
 	
-	private JPasswordField inputProxyPass, inputRepoPass;
+	private JPasswordField inputProxyPass;
+	private JPasswordField inputRepoPass;
 	
-	private JTextField inputRepoName, inputRepoOwner, inputRepoUser, inputXlsPath, inputLocale;
+	private JTextField inputRepoName;
+	private JTextField inputRepoOwner;
+	private JTextField inputRepoUser;
+	private JTextField inputXlsPath;
+	private JTextField inputLocale;
 	
 	private JComboBox<String> inputStateCombo;
 	
-	private String labelStateOpen, labelStateClosed, labelStateAll;
+	private String labelStateOpen;
+	private String labelStateClosed;
+	private String labelStateAll;
 	
 	private ResourceBundle lagelBundle;
 	
-	private JButton buttonSaveConfiguration, buttonGenerateReport;
+	private JButton buttonSaveConfiguration;
+	private JButton buttonGenerateReport;
 	
 	private JTextArea outputArea;
 	
-	private JMenuItem actionSaveConfigurationMI, helpQuickstartMI, helpInfoMI;
+	private JMenuItem actionSaveConfigurationMI;
+	private JMenuItem helpQuickstartMI;
+	private JMenuItem helpInfoMI;
 	
 	private File configSavePath;
 	
@@ -83,7 +113,7 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 	}
 	
 	private static JLabel newJLabel( String text ) {
-		return newJLabel( text, JLabel.RIGHT );
+		return newJLabel( text, SwingConstants.RIGHT );
 	}
 	
 	private static JTextField newJTextField( String text ) {
@@ -130,16 +160,14 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		// handle config file
 		this.configSavePath = GithubIssueConfig.getInstance().getMainConfigFile();
 		if ( this.configSavePath.exists() ) {
-			try {
-				FileInputStream fis = new FileInputStream( this.configSavePath );
+			try ( FileInputStream fis = new FileInputStream( this.configSavePath ) ) {
 				this.config.load( fis );
-				fis.close();
-				logger.info( "Config loaded : "+this.configSavePath );
+				logger.info( "Config loaded : {}", this.configSavePath );
 			} catch (Exception e) {
 				logger.warn( "Failed to load configuration "+this.configSavePath, e );
 			} 
 		} else {
-			logger.info( "Config file does not exist : "+this.configSavePath );
+			logger.info( "Config file does not exist : {}" , this.configSavePath );
 		}
 		// i18n
 		String defaultLocale = this.config.getProperty( GithubIssueExport.ARG_LANG, Locale.getDefault().toString() );
@@ -151,7 +179,7 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 				logger.warn( "Errore overriding locale : "+defaultLocale+", using default : "+loc, e );
 			}
 		}
-		this.lagelBundle = XMLResourceBundle.getBundle( "org.fugerit.java.github.issue.export.config.gui.gui-label_xml", loc, new XMLResourceBundleControl() );
+		this.lagelBundle = ResourceBundle.getBundle( "org.fugerit.java.github.issue.export.config.gui.gui-label_xml", loc, new XMLResourceBundleControl() );
 		// create components
 		this.outputArea = new JTextArea( this.lagelBundle.getString( "label.output.area.init" ) );
 		this.outputArea.setEditable( false );
@@ -168,7 +196,7 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		this.inputRepoPass = new JPasswordField();
 		this.inputXlsPath = newJTextField( this.config.getProperty( GithubIssueExport.ARG_XLSFILE, defaultInputText ) );
 		this.inputLocale = newJTextField( defaultLocale );
-		this.inputStateCombo = new JComboBox<String>();
+		this.inputStateCombo = new JComboBox<>();
 		this.labelStateOpen = this.lagelBundle.getString( "label.input.state.open" );
 		this.labelStateClosed = this.lagelBundle.getString( "label.input.state.closed" );
 		this.labelStateAll = this.lagelBundle.getString( "label.input.state.all" );
@@ -208,7 +236,7 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		
 		// repository config
 		// add row
-		addRow( newJLabel( this.lagelBundle.getString( "label.input.repo.title" ), JLabel.CENTER ), mainPanel );
+		addRow( newJLabel( this.lagelBundle.getString( "label.input.repo.title" ), SwingConstants.CENTER ), mainPanel );
 		// add row
 		JPanel repoPanel1 = new JPanel( new GridLayout( 1 , 2 ) );
 		newRowPanel( newJLabel( this.lagelBundle.getString( "label.input.repo.owner" ) ), this.inputRepoOwner, repoPanel1 );
@@ -224,7 +252,7 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		
 		// report config
 		// add row
-		addRow( newJLabel( this.lagelBundle.getString( "label.input.report.title" ), JLabel.CENTER ), mainPanel );
+		addRow( newJLabel( this.lagelBundle.getString( "label.input.report.title" ), SwingConstants.CENTER ), mainPanel );
 		// add row
 		JPanel reportPanel1 = new JPanel( new GridLayout( 1 , 2 ) );
 		newRowPanel( newJLabel( this.lagelBundle.getString( "label.input.input.language" ) ), this.inputLocale, reportPanel1 );
@@ -240,7 +268,7 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 
 		// proxy field config
 		// add row		
-		addRow( newJLabel( this.lagelBundle.getString( "label.input.proxy.title" ), JLabel.CENTER ), mainPanel );				
+		addRow( newJLabel( this.lagelBundle.getString( "label.input.proxy.title" ), SwingConstants.CENTER ), mainPanel );				
 		// add row
 		JPanel proxyPanel1 = new JPanel( new GridLayout( 1 , 2 ) );
 		newRowPanel( newJLabel( this.lagelBundle.getString( "label.input.proxy.host" ) ), this.inputProxyHost, proxyPanel1 );	
@@ -284,7 +312,7 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		if ( this.config.isEmpty()  && value != null ) {
 			field.setText( value );
 		}
-		System.out.println( "key : "+key+" - > "+value );
+		logger.info( "key : {} - > {}", key, value );
 	}
 	
 	public GithubIssueGUI( Properties params ) {
@@ -309,7 +337,6 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		area.setContentType( "text/html" );
 		area.setText( content );
 		frame.add( area );
-		//frame.getContentPane().add(panel);
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -342,15 +369,6 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 					Runnable runExport = newReportExportRun( this );
 					Thread t = new Thread( runExport );
 					t.start();
-//					try {
-//						GithubIssueExport.handle( this.config );
-//						String baseText = this.lagelBundle.getString( "label.output.area.generate.ok" );
-//						this.outputArea.setText( baseText + new File( this.inputXlsPath.getText() ).getAbsolutePath() );
-//					}  catch (Exception ex) {
-//						logger.warn( "Report generation failed "+ex, ex );
-//						String baseText = this.lagelBundle.getString( "label.output.area.generate.ko" );
-//						this.outputArea.setText( baseText+ex.getMessage() );
-//					} 
 			}
 		} else if ( source == this.buttonSaveConfiguration || source == this.actionSaveConfigurationMI ) {
 			String tempPass1 = this.config.getProperty( GithubIssueExport.ARG_GITHUB_PASS );
@@ -361,9 +379,9 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 				if ( !this.configSavePath.getParentFile().exists() )  {
 					this.configSavePath.getParentFile().mkdirs();
 				}
-				FileOutputStream fos = new FileOutputStream( this.configSavePath );
-				this.config.store( fos , "Config saved on "+new Date() );
-				fos.close();
+				try (FileOutputStream fos = new FileOutputStream( this.configSavePath )) {
+					this.config.store( fos , "Config saved on "+new Date() );
+				}
 				String baseText = this.lagelBundle.getString( "label.output.area.configuration.saved" );
 				this.outputArea.setText( baseText+" "+this.configSavePath.getAbsolutePath() );
 			} catch (Exception ex) {
@@ -389,6 +407,7 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 	 * @see java.awt.event.WindowListener#windowOpened(java.awt.event.WindowEvent)
 	 */
 	public void windowOpened(WindowEvent e) {
+		// no need to do anything for this event
 	}
 
 	/* (non-Javadoc)
@@ -405,44 +424,51 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 	 * @see java.awt.event.WindowListener#windowClosed(java.awt.event.WindowEvent)
 	 */
 	public void windowClosed(WindowEvent e) {
+		// no need to do anything for this event
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.WindowListener#windowIconified(java.awt.event.WindowEvent)
 	 */
 	public void windowIconified(WindowEvent e) {
+		// no need to do anything for this event
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.WindowListener#windowDeiconified(java.awt.event.WindowEvent)
 	 */
 	public void windowDeiconified(WindowEvent e) {
+		// no need to do anything for this event
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.WindowListener#windowActivated(java.awt.event.WindowEvent)
 	 */
 	public void windowActivated(WindowEvent e) {
+		// no need to do anything for this event
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.WindowListener#windowDeactivated(java.awt.event.WindowEvent)
 	 */
 	public void windowDeactivated(WindowEvent e) {
+		// no need to do anything for this event
 	}
 	
 	private Runnable newReportExportRun( final GithubIssueGUI gui ) {
-		return new Runnable() {
-			public void run() {
-				try {
-					GithubIssueExport.handle( gui.config );
-					String baseText2 = gui.lagelBundle.getString( "label.output.area.generate.ok" );
-					gui.outputArea.setText( baseText2 + new File( gui.inputXlsPath.getText() ).getAbsolutePath() );
-				} catch (Exception ex) {
-					logger.warn( "Report generation failed "+ex, ex );
-					String baseText = gui.lagelBundle.getString( "label.output.area.generate.ko" );
-					gui.outputArea.setText( baseText+ex.getMessage() );
+		return () -> {
+			try {
+				GithubIssueExport.handle( gui.config );
+				String baseText2 = gui.lagelBundle.getString( "label.output.area.generate.ok" );
+				gui.outputArea.setText( baseText2 + new File( gui.inputXlsPath.getText() ).getAbsolutePath() );
+			} catch (Exception ex) {
+				logger.warn( "Report generation failed "+ex, ex );
+				String baseText = gui.lagelBundle.getString( "label.output.area.generate.ko" );
+				Throwable t = ex;
+				while ( t.getCause() != null ) {
+					t = t.getCause();
 				}
+				gui.outputArea.setText( baseText+t.getMessage() );
 			}
 		};
 	}

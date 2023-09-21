@@ -21,12 +21,14 @@ import java.util.Set;
  *
  */
 public class XMLResourceBundleControl extends ResourceBundle.Control {
-	  private static String XML = "xml";
+	  private static final String XML = "xml";
 
+	  @Override
 	  public List<String> getFormats(String baseName) {
 	    return Collections.singletonList(XML);
 	  }
 
+	  @Override
 	  public ResourceBundle newBundle(String baseName, Locale locale, String format,
 	      ClassLoader loader, boolean reload) throws IllegalAccessException, InstantiationException,
 	      IOException {
@@ -63,11 +65,6 @@ public class XMLResourceBundleControl extends ResourceBundle.Control {
 	    return bundle;
 	  }
 
-	  public static void main(String args[]) {
-	    ResourceBundle bundle = ResourceBundle.getBundle("Strings", new XMLResourceBundleControl());
-	    String string = bundle.getString("Key");
-	    System.out.println("Key: " + string);
-	  }
 	}
 
 	class XMLResourceBundle extends ResourceBundle {

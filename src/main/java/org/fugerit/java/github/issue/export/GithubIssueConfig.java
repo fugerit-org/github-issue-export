@@ -26,8 +26,7 @@ public class GithubIssueConfig {
 	}
 	
 	public File getBaseConfigPath() {
-		File file = new File( System.getProperty( "user.home" ), CONFIG_FOLDER );
-		return file;
+		return new File( System.getProperty( "user.home" ), CONFIG_FOLDER );
 	}
 	
 	public File getMainConfigFile() {
@@ -38,7 +37,7 @@ public class GithubIssueConfig {
 		String baseName = "cache-"+owner+"-"+repo+".properties";
 		File file = new File( getBaseConfigPath(), baseName );
 		if ( !file.getParentFile().exists() ) {
-			logger.info( "create config dir : "+file.getAbsolutePath()+" -> "+file.getParentFile().mkdirs() );
+			logger.info( "create config dir : {} -> {}", file.getAbsolutePath(), file.getParentFile().mkdirs() );
 		}
 		return file;
 	}
@@ -47,17 +46,17 @@ public class GithubIssueConfig {
 		Properties cache = new Properties();
 		File file = this.getCacheFileForRepo(owner, repo);
 		if ( file.exists() ) {
-			FileInputStream fis = new FileInputStream( file );
-			cache.load( fis );
-			fis.close();	
+			try ( FileInputStream fis = new FileInputStream( file ) ) {
+				cache.load( fis );
+			}
 		}
 		return cache;
 	}
 	
 	public void saveCachePropForRepo( Properties cache, String owner, String repo ) throws IOException {
-		FileOutputStream fos = new FileOutputStream( this.getCacheFileForRepo(owner, repo) );
-		cache.store( fos , "cache file for repo : "+owner+"/"+repo );
-		fos.close();
+		try ( FileOutputStream fos = new FileOutputStream( this.getCacheFileForRepo(owner, repo) ) ) {
+			cache.store( fos , "cache file for repo : "+owner+"/"+repo );
+		}
 	}
 	
 }

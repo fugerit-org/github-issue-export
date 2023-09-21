@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Workbook;
  */
 public class PoiHelper {
 
+	private PoiHelper() {}
 
 	/*
 	 * Use with caution, bad performance

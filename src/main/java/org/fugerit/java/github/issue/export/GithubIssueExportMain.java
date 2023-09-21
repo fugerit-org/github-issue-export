@@ -22,11 +22,13 @@ public class GithubIssueExportMain {
 
 	public static final String ARG_GUI_LOCALE = "gui_locale";
 	
-	public static final String ARG_GUI_PRESET_ARG_ASSIGNEE_DATE_MODE = "gui_preset-"+GithubIssueExport.ARG_ASSIGNEE_DATE_MODE;
-	public static final String ARG_GUI_PRESET_OWNER = "gui_preset-"+GithubIssueExport.ARG_OWNER;
-	public static final String ARG_GUI_PRESET_REPO = "gui_preset-"+GithubIssueExport.ARG_REPO;
-	public static final String ARG_GUI_PRESET_PROXY_HOST = "gui_preset-"+GithubIssueExport.ARG_PROXY_HOST;
-	public static final String ARG_GUI_PRESET_PROXY_PORT = "gui_preset-"+GithubIssueExport.ARG_PROXY_PORT;
+	private static final String PREFIX_GUI_PRESET = "gui_preset-";
+	
+	public static final String ARG_GUI_PRESET_ARG_ASSIGNEE_DATE_MODE = PREFIX_GUI_PRESET+GithubIssueExport.ARG_ASSIGNEE_DATE_MODE;
+	public static final String ARG_GUI_PRESET_OWNER = PREFIX_GUI_PRESET+GithubIssueExport.ARG_OWNER;
+	public static final String ARG_GUI_PRESET_REPO = PREFIX_GUI_PRESET+GithubIssueExport.ARG_REPO;
+	public static final String ARG_GUI_PRESET_PROXY_HOST = PREFIX_GUI_PRESET+GithubIssueExport.ARG_PROXY_HOST;
+	public static final String ARG_GUI_PRESET_PROXY_PORT = PREFIX_GUI_PRESET+GithubIssueExport.ARG_PROXY_PORT;
 	
 	public static final String ARG_COPY_RES = "copy-res";
 	
@@ -51,13 +53,13 @@ public class GithubIssueExportMain {
 			if ( "1".equalsIgnoreCase( gui ) ) {
 				String guiLocale = params.getProperty( ARG_GUI_LOCALE );
 				if (guiLocale != null) {
-					logger.info( "gui locale : "+guiLocale );
+					logger.info( "gui locale : {}", guiLocale );
 					Locale.setDefault( Locale.forLanguageTag( guiLocale ) );
 				}
-				logger.info( "gui mode : "+gui+" (default if gui mode, if no gui add --gui 0" );
+				logger.info( "gui mode : {} (default if gui mode, if no gui add --gui 0", gui );
 				new GithubIssueGUI( params ); 
 			} else {
-				logger.info( "no gui mode : "+gui );
+				logger.info( "no gui mode : {}", gui );
 				GithubIssueExport.handle( params );	
 			}
 		} catch (Exception e) {
