@@ -11,7 +11,7 @@
 
 	<artifactId>github-issue-export</artifactId>
 
-	<version>0.8.0</version>
+	<version>0.6.0</version>
 	<packaging>jar</packaging>
 
 	<name>github-issue-export</name>

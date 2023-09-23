@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sonar cloud workflow yml removed. (after being merged with maven build)
 
 
-## [0.8.0] - 2023-09-24
+## [0.6.0] - 2023-09-24
 
 ### Added
 
