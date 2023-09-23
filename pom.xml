@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.fugerit.java</groupId>
 		<artifactId>fj-bom</artifactId>
-		<version>1.4.0</version>
+		<version>1.4.2</version>
 		<relativePath></relativePath>
 	</parent>
 
@@ -31,6 +31,7 @@
 		<fj-version>8.3.7</fj-version>
 		<fasterxml-jackson-core-version>2.15.2</fasterxml-jackson-core-version>
 		<fasterxml-jackson-databind-version>2.15.2</fasterxml-jackson-databind-version>
+		<sonar.projectKey>fugerit-org_github-issue-export</sonar.projectKey>
 	</properties>
 
 	<licenses>
@@ -56,8 +57,6 @@
 		</developer>
 	</developers>
 
-
-
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
@@ -71,41 +70,12 @@
 			<groupId>org.fugerit.java</groupId>
 			<artifactId>fj-core</artifactId>
 			<version>${fj-version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>*</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
-		<!-- java core dependancies -->
-		<dependency>
-			<groupId>maven</groupId>
-			<artifactId>maven-java-plugin</artifactId>
-			<version>1.6</version>
-		</dependency>
-		
 		<!-- logging -->
 		<dependency> 
 		  <groupId>org.slf4j</groupId>
 		  <artifactId>slf4j-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-api</artifactId>
-		    <scope>provided</scope>
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-core</artifactId>
-		    <scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-slf4j2-impl</artifactId>
-		    <scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -137,6 +107,18 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-simple</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.awaitility</groupId>
+		    <artifactId>awaitility</artifactId>
+		    <scope>test</scope>
 		</dependency>
 
 	</dependencies>

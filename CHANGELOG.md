@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- [Sonar cloud workflow merged in maven build](.github/workflows/deploy_maven_package.yml)
+- Workflow adapted for gui test (running on windows)
+
+### Removed
+
+- Sonar cloud workflow yml removed. (after being merged with maven build)
+
+
 ## [0.8.0] - 2023-09-21
 
 ### Added

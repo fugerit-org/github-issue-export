@@ -6,12 +6,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.fugerit.java.core.lang.helpers.StringUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class GithubIssueConfig {
 
-	private static final Logger logger = LoggerFactory.getLogger( GithubIssueConfig.class );
+	public static final String ENV_OVERRIDE_MAIN_CONFIG = "override-main-config";
 	
 	public static final String CONFIG_FOLDER = ".github-issue-export";
 	
@@ -30,14 +32,22 @@ public class GithubIssueConfig {
 	}
 	
 	public File getMainConfigFile() {
-		return new File( getBaseConfigPath(), MAIN_CONFIG_FILE );
+		String overrideMainConfig = System.getProperty( ENV_OVERRIDE_MAIN_CONFIG );
+		File configFile = null;
+		if ( StringUtils.isEmpty( overrideMainConfig ) ) {
+			configFile = new File( getBaseConfigPath(), MAIN_CONFIG_FILE );
+		} else {
+			log.info( "override-main-config : {}", overrideMainConfig );
+			configFile = new File( overrideMainConfig );
+		}
+		return configFile;
 	}
 	
 	public File getCacheFileForRepo( String owner, String repo ) {
 		String baseName = "cache-"+owner+"-"+repo+".properties";
 		File file = new File( getBaseConfigPath(), baseName );
 		if ( !file.getParentFile().exists() ) {
-			logger.info( "create config dir : {} -> {}", file.getAbsolutePath(), file.getParentFile().mkdirs() );
+			log.info( "create config dir : {} -> {}", file.getAbsolutePath(), file.getParentFile().mkdirs() );
 		}
 		return file;
 	}

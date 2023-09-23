@@ -193,7 +193,8 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		this.inputRepoOwner = newJTextField( this.config.getProperty( GithubIssueExport.ARG_OWNER, defaultInputText ) );
 		this.inputRepoName = newJTextField( this.config.getProperty( GithubIssueExport.ARG_REPO, defaultInputText ) );
 		this.inputRepoUser = newJTextField( this.config.getProperty( GithubIssueExport.ARG_GITHUB_USER, defaultInputText ) );
-		this.inputRepoPass = new JPasswordField();
+		String savedPass = this.config.getProperty( GithubIssueExport.ARG_GITHUB_PASS, defaultInputText );
+		this.inputRepoPass = new JPasswordField( savedPass );
 		this.inputXlsPath = newJTextField( this.config.getProperty( GithubIssueExport.ARG_XLSFILE, defaultInputText ) );
 		this.inputLocale = newJTextField( defaultLocale );
 		this.inputStateCombo = new JComboBox<>();
@@ -341,6 +342,10 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		frame.setVisible(true);
 	}
 
+	protected void pressGenerateButton() {
+		this.performMainAction( this.buttonGenerateReport );
+	}
+	
 	private void performMainAction( Object source ) {
 		this.config.setProperty( GithubIssueExport.ARG_PROXY_HOST , this.inputProxyHost.getText() );
 		this.config.setProperty( GithubIssueExport.ARG_PROXY_PORT , this.inputProxyPort.getText() );
