@@ -9,27 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- [Sonar cloud workflow merged in maven build](.github/workflows/deploy_maven_package.yml)
-- Workflow adapted for gui test (running on windows)
+
 
 ### Removed
 
 - Sonar cloud workflow yml removed. (after being merged with maven build)
 
 
-## [0.8.0] - 2023-09-21
+## [0.8.0] - 2023-09-24
 
 ### Added
 
 - [workflow deploy on branch deploy](.github/workflows/deploy_maven_package.yml)
-- [workflow maven build](.github/workflows/build_maven_package.yml)
+- [Sonar cloud workflow merged in maven build](.github/workflows/deploy_maven_package.yml)
 - keep a changelog and coverage badge
-- fj-bom version set to 1.4.0
+- fj-bom version set to 1.4.2
 
 ### Changed
 
-- [workflow sonar cloud](.github/workflows/sonarcloud-maven.yml)
-- fj-core version set to 8.3.7
+- Workflow adapted for gui test (running on windows)
+- fj-core version set to 8.3.8
 
 ### Security 
 

@@ -14,7 +14,6 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
@@ -35,6 +34,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 
+import org.fugerit.java.core.function.SafeFunction;
 import org.fugerit.java.core.lang.helpers.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,22 +45,6 @@ import org.slf4j.LoggerFactory;
  */
 public class GithubIssueGUI extends JFrame implements WindowListener, ActionListener {
 
-	// code added to setup a basic conditional serialization - START
-	
-	private void writeObject(java.io.ObjectOutputStream out) throws IOException {
-		// this class is conditionally serializable, depending on contained object
-		// special situation can be handleded using this method in future
-		out.defaultWriteObject();
-	}
-
-	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-		// this class is conditionally serializable, depending on contained object
-		// special situation can be handleded using this method in future
-		in.defaultReadObject();
-	}
-	
-	// code added to setup a basic conditional serialization - END
-	
 	protected static final Logger logger = LoggerFactory.getLogger(GithubIssueGUI.class);
 	
 	/**
@@ -330,8 +314,15 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		this.initLayout();
 	}
 	
-	private void openInfoDialog( String title, String content ) {
+	private JDialog openInfoDialog( String title, String content ) {
 		final JDialog frame = new JDialog( this, title, true );
+		Thread t = new Thread( () -> {
+			Long timeOut = Long.valueOf( System.getProperty( "gui-default-dialog-timeout", "10000" ) );
+			logger.info( "dialog timeout : {}", timeOut );
+			SafeFunction.apply( () -> Thread.sleep( timeOut ) );
+			frame.dispose();
+		});
+		t.start();
 		frame.setSize( 400, 300 );
 		frame.setLayout( new GridLayout( 1 , 1 ) );
 		JTextPane area = new JTextPane();
@@ -340,10 +331,19 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		frame.add( area );
 		frame.pack();
 		frame.setVisible(true);
+		return frame;
 	}
 
 	protected void pressGenerateButton() {
 		this.performMainAction( this.buttonGenerateReport );
+	}
+	
+	protected void pressSaveConfigurationButton() {
+		this.performMainAction( this.buttonSaveConfiguration );
+	}
+	
+	protected void pressHelpInfoMI() {
+		this.openInfoDialog( this.helpInfoMI.getText() , this.lagelBundle.getString( "label.menu.help.dialog.info" ) );
 	}
 	
 	private void performMainAction( Object source ) {

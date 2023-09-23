@@ -15,9 +15,10 @@ import org.fugerit.java.github.issue.export.GithubIssueGUI;
 import org.junit.Test;
 
 import lombok.extern.slf4j.Slf4j;
+import test.org.fugerit.java.BasicTest;
 
 @Slf4j
-public class TestGithubIssueGUI {
+public class TestGithubIssueGUI extends BasicTest {
 
 	@Test
 	public void testGUI1() {
@@ -27,6 +28,7 @@ public class TestGithubIssueGUI {
 			Properties configProps = PropsIO.loadFromClassLoader( "gui/test-repo.properties" );
 			configProps.setProperty( "xls-file" , file.getAbsolutePath() );
 			
+			System.setProperty( "gui-default-dialog-timeout", "500" );
 			String githubParam1 = System.getProperty( "githubParam1" );
 			String githubParam2 = System.getProperty( "githubParam2" );
 			if ( StringUtils.isNotEmpty( githubParam1 ) && StringUtils.isNotEmpty( githubParam2 ) ) {
@@ -42,7 +44,10 @@ public class TestGithubIssueGUI {
 			System.setProperty(GithubIssueConfig.ENV_OVERRIDE_MAIN_CONFIG , configFile.getCanonicalPath() );
 			Properties params = new Properties();
 			TestGUI gui = new TestGUI( params );
+			
 			gui.pressGenerateButton();
+			gui.pressSaveConfigurationButton();
+			gui.pressHelpInfoMI();
 			Awaitility.await()
 		    	.atLeast( Duration.ofMillis( 50 ) )
 		    	.atMost( Duration.ofMillis( 5000 ) )
@@ -66,9 +71,22 @@ class TestGUI extends GithubIssueGUI {
 		super(params);
 	}
 	
+	@Override
 	public void pressGenerateButton() {
 		super.pressGenerateButton();
 	}
+
+	@Override
+	public void pressSaveConfigurationButton() {
+		super.pressSaveConfigurationButton();
+	}
+
+	@Override
+	public void pressHelpInfoMI() {
+		super.pressHelpInfoMI();
+	}
+	
+	
 	
 }
 

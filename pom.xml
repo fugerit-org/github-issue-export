@@ -121,6 +121,18 @@
 		    <scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.fugerit.java</groupId>
+			<artifactId>fj-test-helper8</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 	</dependencies>
 
 	<profiles>

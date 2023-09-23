@@ -67,6 +67,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class GithubIssueExport {
 
+	private GithubIssueExport() {}
+	
 	protected static final Logger logger = LoggerFactory.getLogger(GithubIssueExport.class);
 	
 	public static final String ARG_HELP = "help";
