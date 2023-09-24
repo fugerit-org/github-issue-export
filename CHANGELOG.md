@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- src/main/config/log4j2.xml configuration to use on singlepackage profile
+
 ## [0.6.1] - 2023-09-24
 
 ### Changed
