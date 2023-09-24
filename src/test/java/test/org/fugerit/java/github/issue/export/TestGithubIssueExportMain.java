@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.fugerit.java.core.cli.ArgUtils;
 import org.fugerit.java.core.lang.helpers.BooleanUtils;
@@ -59,6 +60,19 @@ public class TestGithubIssueExportMain {
 		String[] args = params.toArray( new String[0] );
 		GithubIssueExportMain.main(args);
 		Assert.assertTrue( outputFile.exists() );
+	}
+	
+	@Test
+	public void testGui() {
+		GithubIssueExportMain.main(new String[0]);
+		Assert.assertTrue( true );
+	}
+	
+	@Test
+	public void testGuiLocale() {
+		String[] args = { ArgUtils.getArgString( GithubIssueExportMain.ARG_GUI_LOCALE ), Locale.ENGLISH.toString() };
+		GithubIssueExportMain.main(args);
+		Assert.assertTrue( true );
 	}
 	
 }

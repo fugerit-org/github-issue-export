@@ -12,6 +12,7 @@ import java.util.Properties;
 import org.fugerit.java.core.cli.ArgUtils;
 import org.fugerit.java.core.function.SafeFunction;
 import org.fugerit.java.core.io.StreamIO;
+import org.fugerit.java.core.lang.helpers.BooleanUtils;
 import org.fugerit.java.core.lang.helpers.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,9 +51,9 @@ public class GithubIssueExportMain {
 			}
 		} );
 		// copy res end
-		try {
-			String gui = params.getProperty( ARG_GUI, "1" );
-			if ( "1".equalsIgnoreCase( gui ) ) {
+		SafeFunction.applySilent( () -> {
+			String gui = params.getProperty( ARG_GUI, BooleanUtils.BOOLEAN_1 );
+			if ( BooleanUtils.isTrue( gui ) ) {
 				String guiLocale = params.getProperty( ARG_GUI_LOCALE );
 				if (guiLocale != null) {
 					logger.info( "gui locale : {}", guiLocale );
@@ -64,9 +65,7 @@ public class GithubIssueExportMain {
 				logger.info( "no gui mode : {}", gui );
 				GithubIssueExport.handle( params );	
 			}
-		} catch (Exception e) {
-			logger.error( e.getMessage(), e );
-		}
+		} );
 	}
 	
 }

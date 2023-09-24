@@ -36,6 +36,7 @@ import javax.swing.SwingConstants;
 
 import org.fugerit.java.core.function.SafeFunction;
 import org.fugerit.java.core.lang.helpers.StringUtils;
+import org.fugerit.java.core.util.i18n.XMLResourceBundleControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +74,7 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 	private String labelStateClosed;
 	private String labelStateAll;
 	
-	private ResourceBundle lagelBundle;
+	private transient ResourceBundle lagelBundle;
 	
 	private JButton buttonSaveConfiguration;
 	private JButton buttonGenerateReport;

@@ -7,14 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.1] - 2023-09-24
+
 ### Changed
 
 - update code of conduct and added badge
+- fj-bom set to 1.4.4
+- increased test coverage
+- substituted XMLResourceBundleControl  with the class in fj-core
 
 ### Removed
 
 - Sonar cloud workflow yml removed. (after being merged with maven build)
-
 
 ## [0.6.0] - 2023-09-24
 
