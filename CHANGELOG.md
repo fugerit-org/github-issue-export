@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.2] - 2023-09-24
+
 ### Added
 
 - src/main/config/log4j2.xml configuration to use on singlepackage profile
@@ -14,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - now a github token is expected instead of the password, the github user is ignored (anyway github does not support anymore user/pass basic auth)
+- in GUI github password renamed in github token
 
 ### Security
 

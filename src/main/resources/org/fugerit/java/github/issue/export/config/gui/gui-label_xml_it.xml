@@ -17,7 +17,7 @@
 <entry key="label.input.repo.owner"> Proprietario (*) </entry>
 <entry key="label.input.repo.name"> Nome (*) </entry>
 <entry key="label.input.repo.user"> User </entry>
-<entry key="label.input.repo.pass"> Password </entry>
+<entry key="label.input.repo.pass"> Token </entry>
 
 <entry key="label.input.report.title"> Report Excel (.xls) </entry>
 <entry key="label.input.input.language"> Lingua (Locale) </entry>

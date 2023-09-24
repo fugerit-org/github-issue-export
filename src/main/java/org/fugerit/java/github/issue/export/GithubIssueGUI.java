@@ -228,9 +228,8 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		newRowPanel( newJLabel( this.lagelBundle.getString( "label.input.repo.owner" ) ), this.inputRepoOwner, repoPanel1 );
 		newRowPanel( newJLabel( this.lagelBundle.getString( "label.input.repo.name" ) ), this.inputRepoName, repoPanel1 );
 		addRow( repoPanel1 , mainPanel );
-		// add row
-		JPanel repoPanel2 = new JPanel( new GridLayout( 1 , 2 ) );
-		newRowPanel( newJLabel( this.lagelBundle.getString( "label.input.repo.user" ) ), this.inputRepoUser, repoPanel2 );
+		// add row (inputRepoUser now ignored, see issue #22)
+		JPanel repoPanel2 = new JPanel( new GridLayout( 1 , 1 ) );
 		newRowPanel( newJLabel( this.lagelBundle.getString( "label.input.repo.pass" ) ), this.inputRepoPass, repoPanel2 );
 		addRow( repoPanel2 , mainPanel );
 		// add row

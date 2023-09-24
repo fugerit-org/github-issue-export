@@ -17,7 +17,7 @@
 <entry key="label.input.repo.owner"> Owner </entry>
 <entry key="label.input.repo.name"> Name </entry>
 <entry key="label.input.repo.user"> Github user </entry>
-<entry key="label.input.repo.pass"> Github password </entry>
+<entry key="label.input.repo.pass"> Github Token </entry>
 
 <entry key="label.input.report.title"> Report </entry>
 <entry key="label.input.input.language"> Language (Locale) </entry>
