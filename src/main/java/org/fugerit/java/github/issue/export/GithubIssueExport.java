@@ -11,10 +11,8 @@ import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -295,10 +293,12 @@ public class GithubIssueExport {
 			} else {
 				URL u = new URL( url );
 				conn = (HttpURLConnection)u.openConnection();
-				if ( StringUtils.isNotEmpty( githubUser ) && StringUtils.isNotEmpty( githubPass ) ) {
-					String encoded = Base64.getEncoder().encodeToString((githubUser+":"+githubPass).getBytes(StandardCharsets.UTF_8));
-					logger.info( "Set authentication : {}", encoded );
-					conn.setRequestProperty("Authorization", "Basic "+encoded);
+				// https://github.com/fugerit-org/github-issue-export/issues/22 :
+				// the githubPass is used as Bearer token
+				// the githuUser is ignored
+				if ( StringUtils.isNotEmpty( githubPass ) ) {
+					logger.info( "Set bearer token : {}", githubPass );
+					conn.setRequestProperty("Authorization", "Bearer "+githubPass );
 				}
 			}
 			StringBuilder buffer = new StringBuilder();

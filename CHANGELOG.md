@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - src/main/config/log4j2.xml configuration to use on singlepackage profile
 
+### Changed
+
+- now a github token is expected instead of the password, the github user is ignored (anyway github does not support anymore user/pass basic auth)
+
+### Security
+
+- [Basic authentication should not be used](https://github.com/fugerit-org/github-issue-export/issues/22)
+
 ## [0.6.1] - 2023-09-24
 
 ### Changed

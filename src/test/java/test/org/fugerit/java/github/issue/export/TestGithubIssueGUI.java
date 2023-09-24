@@ -56,6 +56,7 @@ public class TestGithubIssueGUI extends BasicTest {
 		    	.until( file::exists );
 			gui.dispose();
 			log.info( "file : {} -> {}", file.getCanonicalPath(), file.length() );
+			file.delete();
 		} );
 		
 	}
