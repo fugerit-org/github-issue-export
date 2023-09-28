@@ -63,6 +63,13 @@ public class TestGithubIssueExportMain {
 	}
 	
 	@Test
+	public void testHel() {
+		String[] args = { ArgUtils.getArgString( GithubIssueExport.ARG_HELP ) };
+		GithubIssueExportMain.main(args);
+		Assert.assertTrue( true );
+	}
+	
+	@Test
 	public void testGui() {
 		GithubIssueExportMain.main(new String[0]);
 		Assert.assertTrue( true );

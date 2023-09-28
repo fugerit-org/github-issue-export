@@ -3,19 +3,14 @@
  */
 package org.fugerit.java.github.issue.export;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.Locale;
 import java.util.Properties;
 
 import org.fugerit.java.core.cli.ArgUtils;
 import org.fugerit.java.core.function.SafeFunction;
 import org.fugerit.java.core.io.SafeIO;
-import org.fugerit.java.core.io.StreamIO;
 import org.fugerit.java.core.lang.helpers.BooleanUtils;
 import org.fugerit.java.core.lang.helpers.ClassHelper;
-import org.fugerit.java.core.lang.helpers.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,29 +43,11 @@ public class GithubIssueExportMain {
 		log.info( "help : \n\n{}", SafeIO.readStringStream( () -> ClassHelper.loadFromDefaultClassLoader( "tool-config/help.txt" ) ) );
 	}
 	
-	private static void copyRes( Properties params ) {
-		// copy res start
-		SafeFunction.applySilent( () -> {
-			String copyRes = params.getProperty( ARG_COPY_RES );
-			File basePath = GithubIssueConfig.getInstance().getBaseConfigPath();
-			if ( StringUtils.isNotEmpty(copyRes) ) {
-				File dest = new File( basePath, copyRes );
-				if ( !dest.exists() ) {
-					InputStream is = GithubIssueExportMain.class.getResourceAsStream( "/"+copyRes );
-					FileOutputStream fos = new FileOutputStream( dest );
-					StreamIO.pipeStream( is , fos , StreamIO.MODE_CLOSE_OUT_ONLY );
-				}	
-			}
-		} );
-		// copy res end
-	}
-	
 	public static void handle( Properties params ) {
 		String help = params.getProperty( ARG_HELP );
 		if ( help != null ) {
 			printHelp();
 		} else {
-			copyRes(params);
 			SafeFunction.applySilent( () -> {
 				String gui = params.getProperty( ARG_GUI, BooleanUtils.BOOLEAN_1 );
 				if ( BooleanUtils.isTrue( gui ) ) {
