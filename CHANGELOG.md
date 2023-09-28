@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 2023-09-28
+
+### Added
+
+- 'help' and 'github-token' parameter parameter
+- command line reference
+
+### Changed
+
+- parent set to fj-universe-tool 0.4.7
+
+### Fixed
+
+- removed link from Java and Maven badges
+- placeholder in LICENSE set
+- software version links
+
 ## [0.6.2] - 2023-09-24
 
 ### Added

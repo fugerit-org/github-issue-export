@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tool-help-config>
+
+	<toolName>Github Issue Export</toolName>
+	
+	<toolDescription>Simple propject to export github issues to a xls spreadsheet.</toolDescription>
+	
+	<commandExample>java -jar target/dist-github-issue-export-*.jar</commandExample>
+	
+	<param>
+		<id>`gui`</id>
+		<required>`false`</required>
+		<defaultValue>`true`</defaultValue>
+		<description>If `true` will open the Export GUI.</description>
+		<since>0.6.2</since>
+		<info>`true` or `1` will both evaluate to `true`.</info>
+	</param>
+
+	<param>
+		<id>`owner`</id>
+		<required>`false`</required>
+		<defaultValue>none</defaultValue>
+		<description>Repository owner (ex. 'fugerit-org').</description>
+		<since>0.6.2</since>
+		<info>Required in command line mode (gui parameter = 0).</info>
+	</param>
+	
+	<param>
+		<id>`repo`</id>
+		<required>`false`</required>
+		<defaultValue>none</defaultValue>
+		<description>Repository name (ex. 'github-issue-export').</description>
+		<since>0.6.2</since>
+		<info>Required in command line mode (gui parameter = 0).</info>
+	</param>
+	
+	<param>
+		<id>`xls-file`</id>
+		<required>`false`</required>
+		<defaultValue>none</defaultValue>
+		<description>Path to the .xls file (ex. 'report.xls').</description>
+		<since>0.6.2</since>
+		<info>Required in command line mode (gui parameter = 0).</info>
+	</param>
+	
+	<param>
+		<id>`github-token`</id>
+		<required>`false`</required>
+		<defaultValue>none</defaultValue>
+		<description>Github auth token.</description>
+		<since>0.6.2</since>
+		<info>Needed for privare repositories or to increase github api usage limits.</info>
+	</param>
+	
+	<param>
+		<id>`lang`</id>
+		<required>`false`</required>
+		<defaultValue>none</defaultValue>
+		<description>Language code, currently supported : 'en', 'it'.</description>
+		<since>0.6.2</since>
+		<info>If not set will default to default locale or en.</info>
+	</param>
+	
+	<param>
+		<id>`help`</id>
+		<required>`false`</required>
+		<defaultValue>none</defaultValue>
+		<description>Print help about the tool.</description>
+		<since>0.1.0</since>
+		<info></info>
+	</param>
+
+</tool-help-config>

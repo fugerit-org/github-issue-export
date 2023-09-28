@@ -11,13 +11,20 @@ import java.util.Properties;
 
 import org.fugerit.java.core.cli.ArgUtils;
 import org.fugerit.java.core.function.SafeFunction;
+import org.fugerit.java.core.io.SafeIO;
 import org.fugerit.java.core.io.StreamIO;
 import org.fugerit.java.core.lang.helpers.BooleanUtils;
+import org.fugerit.java.core.lang.helpers.ClassHelper;
 import org.fugerit.java.core.lang.helpers.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class GithubIssueExportMain {
+	
+	private GithubIssueExportMain() {}
 
 	protected static final Logger logger = LoggerFactory.getLogger(GithubIssueExportMain.class);
 	
@@ -35,8 +42,13 @@ public class GithubIssueExportMain {
 	
 	public static final String ARG_COPY_RES = "copy-res";
 	
-	public static void main( String[] args ) {
-		Properties params = ArgUtils.getArgs( args );
+	public static final String ARG_HELP = "help";
+	
+	private static void printHelp() {
+		log.info( "help : \n\n{}", SafeIO.readStringStream( () -> ClassHelper.loadFromDefaultClassLoader( "tool-config/help.txt" ) ) );
+	}
+	
+	private static void copyRes( Properties params ) {
 		// copy res start
 		SafeFunction.applySilent( () -> {
 			String copyRes = params.getProperty( ARG_COPY_RES );
@@ -51,21 +63,34 @@ public class GithubIssueExportMain {
 			}
 		} );
 		// copy res end
-		SafeFunction.applySilent( () -> {
-			String gui = params.getProperty( ARG_GUI, BooleanUtils.BOOLEAN_1 );
-			if ( BooleanUtils.isTrue( gui ) ) {
-				String guiLocale = params.getProperty( ARG_GUI_LOCALE );
-				if (guiLocale != null) {
-					logger.info( "gui locale : {}", guiLocale );
-					Locale.setDefault( Locale.forLanguageTag( guiLocale ) );
+	}
+	
+	public static void handle( Properties params ) {
+		String help = params.getProperty( ARG_HELP );
+		if ( help != null ) {
+			printHelp();
+		} else {
+			copyRes(params);
+			SafeFunction.applySilent( () -> {
+				String gui = params.getProperty( ARG_GUI, BooleanUtils.BOOLEAN_1 );
+				if ( BooleanUtils.isTrue( gui ) ) {
+					String guiLocale = params.getProperty( ARG_GUI_LOCALE );
+					if (guiLocale != null) {
+						logger.info( "gui locale : {}", guiLocale );
+						Locale.setDefault( Locale.forLanguageTag( guiLocale ) );
+					}
+					logger.info( "gui mode : {} (default if gui mode, if no gui add --gui 0", gui );
+					new GithubIssueGUI( params ); 
+				} else {
+					logger.info( "no gui mode : {}", gui );
+					GithubIssueExport.handle( params );	
 				}
-				logger.info( "gui mode : {} (default if gui mode, if no gui add --gui 0", gui );
-				new GithubIssueGUI( params ); 
-			} else {
-				logger.info( "no gui mode : {}", gui );
-				GithubIssueExport.handle( params );	
-			}
-		} );
+			} );
+		}
+	}
+	
+	public static void main( String[] args ) {
+		handle( ArgUtils.getArgs( args ) );
 	}
 	
 }

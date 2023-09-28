@@ -82,6 +82,7 @@ public class GithubIssueExport {
 	
 	public static final String ARG_GITHUB_USER = "github_user";
 	public static final String ARG_GITHUB_PASS = "github_pass";
+	public static final String ARG_GITHUB_TOKEN = "github-token";
 	
 	public static final String ARG_XLSFILE = "xls-file";
 	
@@ -272,7 +273,7 @@ public class GithubIssueExport {
 			final String proxyUser = info.getProperty( ARG_PROXY_USER );
 			final String proxyPass = info.getProperty( ARG_PROXY_PASS );
 			String githubUser = info.getProperty( ARG_GITHUB_USER );
-			String githubPass = info.getProperty( ARG_GITHUB_PASS );
+			String githubPass = info.getProperty( ARG_GITHUB_TOKEN, info.getProperty( ARG_GITHUB_PASS ) );	// github_pass is checked for backward compatibility
 			logger.info( "connecting to url : {}(user:{})", url, githubUser );
 			HttpURLConnection conn;
 			if ( !StringUtils.isEmpty( proxyHost ) && !StringUtils.isEmpty( proxyPort ) ) {
@@ -297,7 +298,7 @@ public class GithubIssueExport {
 				// the githubPass is used as Bearer token
 				// the githuUser is ignored
 				if ( StringUtils.isNotEmpty( githubPass ) ) {
-					logger.info( "Set bearer token : {}", githubPass );
+					logger.info( "Set bearer token size : {}", githubPass.length() );
 					conn.setRequestProperty("Authorization", "Bearer "+githubPass );
 				}
 			}
