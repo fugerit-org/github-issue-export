@@ -328,14 +328,6 @@ public class GithubIssueExport {
 		return objectMapper.readValue( data , c );
 	}
 	
-	public static String getValue( Object val ) {
-		String res = null;
-		if ( val != null ) {
-			res = String.valueOf( val );
-		}
-		return res;
-	}
-	
 	private static void handleExcel( GithubIssueInfo info, List<List<String>> lines ) {
 		SafeFunction.apply( () -> {
 			String xlsFile = info.getProperty( ARG_XLSFILE );
