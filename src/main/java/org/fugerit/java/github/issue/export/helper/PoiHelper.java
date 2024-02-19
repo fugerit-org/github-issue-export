@@ -47,9 +47,9 @@ public class PoiHelper {
 			Cell cell = row.createCell( k );
 			String currentCell = values[k];
 			if ( currentCell.length() > 32767 ) {
-				currentCell = currentCell.substring( 0, 32000 )+" [...]";
+				currentCell = currentCell.substring( 0, 32000 )+"[...]";
 			}
-			if ( currentCell == null || "null".equalsIgnoreCase( currentCell ) ) {
+			if ( "null".equalsIgnoreCase( currentCell ) ) {
 				currentCell = "";
 			}
 			cell.setCellValue( currentCell );
