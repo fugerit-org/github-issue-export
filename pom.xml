@@ -2,6 +2,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>org.fugerit.java.universe</groupId>
+		<artifactId>fj-universe-tool</artifactId>
+		<version>0.4.7</version>
+		<relativePath></relativePath>
+	</parent>
+
 	<groupId>org.fugerit.java</groupId>
 	<artifactId>github-issue-export</artifactId>
 
@@ -19,12 +26,9 @@
 	</scm>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<fj-version>0.7.4.10</fj-version>
-		<fasterxml-jackson-core-version>2.12.1</fasterxml-jackson-core-version>
-		<fasterxml-jackson-databind-version>2.12.1</fasterxml-jackson-databind-version>
+		<java-version-compliance>8</java-version-compliance>
+		<tool-main-class>org.fugerit.java.github.issue.export.GithubIssueExportMain</tool-main-class>
+		<sonar.projectKey>fugerit-org_github-issue-export</sonar.projectKey>
 	</properties>
 
 	<licenses>
@@ -50,8 +54,6 @@
 		</developer>
 	</developers>
 
-
-
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
@@ -62,9 +64,30 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.awaitility</groupId>
+		    <artifactId>awaitility</artifactId>
+		    <scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.fugerit.java</groupId>
-			<artifactId>fj-core</artifactId>
-			<version>${fj-version}</version>
+			<artifactId>fj-test-helper8</artifactId>
+			<scope>test</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>*</groupId>
@@ -73,232 +96,7 @@
 			</exclusions>
 		</dependency>
 
-		<!-- java core dependancies -->
-		<dependency>
-			<groupId>maven</groupId>
-			<artifactId>maven-java-plugin</artifactId>
-			<version>1.6</version>
-		</dependency>
-		
-		<!-- logging -->
-		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-core</artifactId>
-		    <version>2.17.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.6.4</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-slf4j-impl</artifactId>
-		    <version>2.13.1</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>4.1.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.9</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>${fasterxml-jackson-core-version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${fasterxml-jackson-databind-version}</version>
-		</dependency>
-
-		<!-- for testing -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.hamcrest</groupId>
-					<artifactId>hamcrest-core</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
 	</dependencies>
-
-	<build>
-
-		<plugins>
-		
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>3.0.1</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.4</version>
-				<configuration>
-					<stylesheetfile>src/main/javadoc/stylesheet.css</stylesheetfile>
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>		
-		
-		</plugins>
-
-	</build>
-
-	<profiles>
-
-		<profile>
-			<id>doRelease</id>
-			<build>
-				<plugins>
-
-
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.8</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>true</autoReleaseAfterClose>
-						</configuration>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.5</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-
-				</plugins>
-			</build>
-		</profile>
-
-	<profile>
-		<id>singlepackage</id>
-		<build>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>3.0.2</version>
-					<configuration>
-						<archive>
-							<manifest>
-								<addClasspath>true</addClasspath>
-								<mainClass>org.fugerit.java.github.issue.export.GithubIssueExportMain</mainClass>
-							</manifest>
-						</archive>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-shade-plugin</artifactId>
-					<version>3.1.0</version>
-					<executions>
-						<execution>
-							<phase>package</phase>
-							<goals>
-								<goal>shade</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<finalName>dist-${project.artifactId}-${project.version}</finalName>
-					</configuration>
-				</plugin>
-			</plugins>
-		</build>
-	</profile>
-
-		<profile>
-			<id>jsonschema2pojo</id>
-			<build>
-				<plugins>
-					<plugin>
-						<!-- Genera gli oggetti di modello java per degli oggetti JSON : http://www.jsonschema2pojo.org/ 
-							https://github.com/joelittlejohn/jsonschema2pojo/wiki/Getting-Started -->
-						<groupId>org.jsonschema2pojo</groupId>
-						<artifactId>jsonschema2pojo-maven-plugin</artifactId>
-						<version>0.4.33</version>
-						<configuration>
-							<sourceType>json</sourceType>
-							<sourceDirectory>${project.basedir}/src/main/resources/pojo-config/json-source</sourceDirectory>
-							<targetPackage>org.fugerit.java.github.issue.export.model</targetPackage>
-							<!-- <sourceDirectory>${basedir}/src/main/resources/schema</sourceDirectory> 
-								<targetPackage>it.sogei.anpr.subentro.bpm.client.pojo</targetPackage> -->
-						</configuration>
-						<executions>
-							<execution>
-								<goals>
-									<goal>generate</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-	</profiles>
-
-	<reporting>
-	    <plugins>
-	      <plugin>
-	        <groupId>org.apache.maven.plugins</groupId>
-	        <artifactId>maven-changelog-plugin</artifactId>
-	        <version>2.3</version>
-	      </plugin>
-	    </plugins>
-	  </reporting>
 
 	<organization>
 		<url>http://www.fugerit.org</url>

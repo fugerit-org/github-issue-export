@@ -1,0 +1,22 @@
+# Github Issue Export  
+
+Simple propject to export github issues to a xls spreadsheet.  
+
+Example : java -jar target/dist-github-issue-export-*.jar  
+
+## parameter help  
+
+	--gui <arg> If `true` will open the Export GUI. [default:`true`]
+
+	--owner <arg> Repository owner (ex. 'fugerit-org').
+
+	--repo <arg> Repository name (ex. 'github-issue-export').
+
+	--xls-file <arg> Path to the .xls file (ex. 'report.xls').
+
+	--github-token <arg> Github auth token.
+
+	--lang <arg> Language code, currently supported : 'en', 'it'.
+
+	--help <arg> Print help about the tool.
+

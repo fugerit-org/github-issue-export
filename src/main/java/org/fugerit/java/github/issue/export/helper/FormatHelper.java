@@ -1,15 +1,22 @@
 package org.fugerit.java.github.issue.export.helper;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class FormatHelper {
+import lombok.extern.slf4j.Slf4j;
 
-	private final static String DF = "dd/MM/yyyy HH:mm";
+@Slf4j
+public class FormatHelper {
 	
-	private final static String STRING_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+	private FormatHelper() {}
+
+	private static final String DF = "dd/MM/yyyy HH:mm";
 	
-	public static String formatDate( Object date, String lang ) throws Exception {
+	private static final String STRING_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+	
+	public static String formatDate( Object date, String lang ) throws ParseException {
+		log.trace( "date : {}, lang : {}", date, lang );
 		String res = "";
 		if ( date != null && date.toString().length() > 0 ) {
 			if ( date instanceof Date ) {

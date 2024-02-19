@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Workbook;
  */
 public class PoiHelper {
 
+	private PoiHelper() {}
 
 	/*
 	 * Use with caution, bad performance
@@ -45,6 +46,9 @@ public class PoiHelper {
 		for ( int k=0; k<values.length; k++ ) {
 			Cell cell = row.createCell( k );
 			String currentCell = values[k];
+			if ( currentCell.length() > 32767 ) {
+				currentCell = currentCell.substring( 0, 32000 )+" [...]";
+			}
 			if ( currentCell == null || "null".equalsIgnoreCase( currentCell ) ) {
 				currentCell = "";
 			}
