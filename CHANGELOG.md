@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- parent set to fj-universe-tool 0.5.8
+
 ### Fixed
 
 - cell content over 32767 is now truncated, see [Worksheet and workbook specifications and limits](https://support.microsoft.com/en-gb/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3)
