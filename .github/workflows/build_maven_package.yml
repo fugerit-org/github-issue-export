@@ -1,10 +1,18 @@
-# CI with maven build and scan
-#
-# version 1.0.1
-#
-# see : https://universe.fugerit.org/src/docs/conventions/workflows/build_maven_package.html
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
 
-name: CI maven build and scan
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: CI maven build and sonar cloud scan
+
+#########################################################################################################
+# note : this workflow runs on windows as a graphical interface is currently needed for gui test        #
+#########################################################################################################
+# note : github auth secrets have beend set to increase github api usage limits                         #
+#########################################################################################################
 
 on:
   # Trigger analysis when pushing in master or pull requests, and when creating
@@ -55,7 +63,7 @@ jobs:
           # SonarCloud access token should be generated from https://sonarcloud.io/account/security/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Build and analyze
-        run: mvn -B clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage,full,metadata,sonarfugerit -Dsonar.projectKey=fugerit-org_${{github.event.repository.name}} -DgithubParam1=%TEST_GITHUB_USER% -DgithubParam2=%TEST_GITHUB_PASS%
+        run: mvn -B clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -P coverage,full,metadata,sonarfugerit -DgithubParam1=%TEST_GITHUB_USER% -DgithubParam2=%TEST_GITHUB_PASS%
         env:
           # Needed to get some information about the pull request, if any
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
