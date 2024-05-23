@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2024-05-22
+
 ### Added
 
-- 'xlsx' output foemat (simple specify xlsx extension for file path)
+- 'xlsx' output format (simple specify xlsx extension for file path)
 
 ## [1.0.0] - 2024-02-19
 
