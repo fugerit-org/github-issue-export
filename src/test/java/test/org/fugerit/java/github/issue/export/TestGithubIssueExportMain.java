@@ -61,6 +61,22 @@ public class TestGithubIssueExportMain {
 		GithubIssueExportMain.main(args);
 		Assert.assertTrue( outputFile.exists() );
 	}
+
+	@Test
+	public void testCommandLineAltXlsx() {
+		File outputFile = new File( "target", "report.xlsx" );
+		List<String> params = new ArrayList<>(
+				Arrays.asList( ArgUtils.getArgString( GithubIssueExportMain.ARG_GUI ), BooleanUtils.BOOLEAN_FALSE,
+						ArgUtils.getArgString( GithubIssueExport.ARG_OWNER ), "fugerit-org",
+						ArgUtils.getArgString( GithubIssueExport.ARG_REPO ), "github-issue-export",
+						ArgUtils.getArgString( GithubIssueExport.ARG_XLSFILE ), outputFile.getAbsolutePath(),
+						ArgUtils.getArgString( GithubIssueExportMain.ARG_COPY_RES ), "target" )
+		);
+		this.checkUser(params);
+		String[] args = params.toArray( new String[0] );
+		GithubIssueExportMain.main(args);
+		Assert.assertTrue( outputFile.exists() );
+	}
 	
 	@Test
 	public void testHel() {

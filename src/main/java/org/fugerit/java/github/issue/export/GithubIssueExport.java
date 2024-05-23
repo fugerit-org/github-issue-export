@@ -24,6 +24,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.fugerit.java.core.cfg.ConfigException;
 import org.fugerit.java.core.cli.ArgUtils;
 import org.fugerit.java.core.function.SafeFunction;
@@ -327,20 +328,20 @@ public class GithubIssueExport {
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		return objectMapper.readValue( data , c );
 	}
-	
-	public static String getValue( Object val ) {
-		String res = null;
-		if ( val != null ) {
-			res = String.valueOf( val );
+
+	private static Workbook createReport( String fileName ) {
+		if ( fileName.toLowerCase().endsWith( "xlsx" ) ) {
+			return new XSSFWorkbook();
+		} else {
+			return new HSSFWorkbook();
 		}
-		return res;
 	}
-	
+
 	private static void handleExcel( GithubIssueInfo info, List<List<String>> lines ) {
 		SafeFunction.apply( () -> {
 			String xlsFile = info.getProperty( ARG_XLSFILE );
 			try ( FileOutputStream fos = new FileOutputStream( new File( xlsFile ) );
-					Workbook workbook = new HSSFWorkbook() ) {
+					Workbook workbook = createReport( xlsFile ) ) {
 				Sheet sheet = workbook.createSheet( "Report github issue" );
 				CellStyle headerStyle = PoiHelper.getHeaderStyle( workbook );
 				String lang = info.getProperty( ARG_LANG );
