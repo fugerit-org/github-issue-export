@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.fugerit.java.universe</groupId>
 		<artifactId>fj-universe-tool</artifactId>
-		<version>0.5.8</version>
+		<version>2.3.1</version>
 		<relativePath></relativePath>
 	</parent>
 
 	<groupId>org.fugerit.java</groupId>
 	<artifactId>github-issue-export</artifactId>
 
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 	<packaging>jar</packaging>
 
 	<name>github-issue-export</name>
