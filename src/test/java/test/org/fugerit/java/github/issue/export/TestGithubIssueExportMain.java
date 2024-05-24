@@ -69,6 +69,7 @@ public class TestGithubIssueExportMain {
 				Arrays.asList( ArgUtils.getArgString( GithubIssueExportMain.ARG_GUI ), BooleanUtils.BOOLEAN_FALSE,
 						ArgUtils.getArgString( GithubIssueExport.ARG_OWNER ), "fugerit-org",
 						ArgUtils.getArgString( GithubIssueExport.ARG_REPO ), "github-issue-export",
+						ArgUtils.getArgString( GithubIssueExport.ARG_ASSIGNEE_DATE_MODE ), GithubIssueExport.ARG_ASSIGNEE_DATE_MODE_SKIP,
 						ArgUtils.getArgString( GithubIssueExport.ARG_XLSFILE ), outputFile.getAbsolutePath(),
 						ArgUtils.getArgString( GithubIssueExportMain.ARG_COPY_RES ), "target" )
 		);
@@ -93,7 +94,8 @@ public class TestGithubIssueExportMain {
 	
 	@Test
 	public void testGuiLocale() {
-		String[] args = { ArgUtils.getArgString( GithubIssueExportMain.ARG_GUI_LOCALE ), Locale.ENGLISH.toString() };
+		String[] args = { ArgUtils.getArgString( GithubIssueExportMain.ARG_GUI_LOCALE ), Locale.ENGLISH.toString(),
+				ArgUtils.getArgString( GithubIssueExportMain.ARG_GUI_PRESET_ARG_ASSIGNEE_DATE_MODE ), GithubIssueExport.ARG_ASSIGNEE_DATE_MODE_SKIP };
 		GithubIssueExportMain.main(args);
 		Assert.assertTrue( true );
 	}

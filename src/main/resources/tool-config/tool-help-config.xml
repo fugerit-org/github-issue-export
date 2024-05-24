@@ -60,7 +60,16 @@
 		<since>0.6.2</since>
 		<info>If not set will default to default locale or en.</info>
 	</param>
-	
+
+	<param>
+		<id>`assignee_date_mode`</id>
+		<required>`false`</required>
+		<defaultValue>all</defaultValue>
+		<description>Accepted value are 'all', 'skip', 'cache', 'skip-closed'.</description>
+		<since>1.2.0</since>
+		<info>When set to skip export is faster.</info>
+	</param>
+
 	<param>
 		<id>`help`</id>
 		<required>`false`</required>

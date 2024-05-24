@@ -36,13 +36,14 @@ java -jar target/dist-github-issue-export-*.jar --gui 0 \
 
 ## **parameter help**  
 
-| **name** | **required** | **default** | **description** | **since** | **info**  |
-|---------------|---------------|---------------|---------------|---------------|---------------|
-| `gui` | `false` | `true` | If `true` will open the Export GUI. | 0.6.2 | `true` or `1` will both evaluate to `true`.  |
-| `owner` | `false` | none | Repository owner (ex. 'fugerit-org'). | 0.6.2 | Required in command line mode (gui parameter = 0).  |
-| `repo` | `false` | none | Repository name (ex. 'github-issue-export'). | 0.6.2 | Required in command line mode (gui parameter = 0).  |
-| `xls-file` | `false` | none | Path to the .xls file (ex. 'report.xls'). | 0.6.2 | Required in command line mode (gui parameter = 0).  |
-| `github-token` | `false` | none | Github auth token. | 0.6.2 | Needed for privare repositories or to increase github api usage limits.  |
-| `lang` | `false` | none | Language code, currently supported : 'en', 'it'. | 0.6.2 | If not set will default to default locale or en.  |
-| `help` | `false` | none | Print help about the tool. | 0.1.0 |   |
+| **name**             | **required** | **default** | **description**                                           | **since** | **info**                                                                |
+|----------------------|--------------|-------------|-----------------------------------------------------------|-----------|-------------------------------------------------------------------------|
+| `gui`                | `false`      | `true`      | If `true` will open the Export GUI.                       | 0.6.2     | `true` or `1` will both evaluate to `true`.                             |
+| `owner`              | `false`      | none        | Repository owner (ex. 'fugerit-org').                     | 0.6.2     | Required in command line mode (gui parameter = 0).                      |
+| `repo`               | `false`      | none        | Repository name (ex. 'github-issue-export').              | 0.6.2     | Required in command line mode (gui parameter = 0).                      |
+| `xls-file`           | `false`      | none        | Path to the .xls file (ex. 'report.xls').                 | 0.6.2     | Required in command line mode (gui parameter = 0).                      |
+| `github-token`       | `false`      | none        | Github auth token.                                        | 0.6.2     | Needed for privare repositories or to increase github api usage limits. |
+| `lang`               | `false`      | none        | Language code, currently supported : 'en', 'it'.          | 0.6.2     | If not set will default to default locale or en.                        |
+| `assignee_date_mode` | `false`      | all         | Accepted value are 'all', 'skip', 'cache', 'skip-closed'. | 1.2.0     | When set to skip export is faster.                                      |
+| `help`               | `false`      | none        | Print help about the tool.                                | 0.1.0     |                                                                         |
 

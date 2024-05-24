@@ -174,17 +174,19 @@ public class GithubIssueExport {
 		if ( assignee != null ) {
 			currentLine.add( String.valueOf( assignee.get( "login" ) ) );
 			String assignDate = null;
-			boolean activeCache = activeCache( cacheMode);
-			if ( activeCache ) {
-				assignDate = info.getCacheEntry( issueId , GithubIssueConfig.FIELD_ASSIGN_DATE );
-			}
-			logger.info( "activeCache : {} - issueId:{} , assign date {}", activeCache, issueId, assignDate );
-			if ( assignDate == null ) {
-				if ( ARG_STATE_CLOSED.equalsIgnoreCase( state ) && ARG_ASSIGNEE_DATE_MODE_SKIP_CLOSED.equals( cacheMode ) ) {
-					// just skip
-				} else {
-					assignDate = handleAssignedIssue(issue, issueId, activeCache, info);
-				}				
+			if ( !ARG_ASSIGNEE_DATE_MODE_SKIP.equals( info.getProperty( ARG_ASSIGNEE_DATE_MODE ) ) ) {
+				boolean activeCache = activeCache( cacheMode);
+				if ( activeCache ) {
+					assignDate = info.getCacheEntry( issueId , GithubIssueConfig.FIELD_ASSIGN_DATE );
+				}
+				logger.info( "activeCache : {} - issueId:{} , assign date {}", activeCache, issueId, assignDate );
+				if ( assignDate == null ) {
+					if ( ARG_STATE_CLOSED.equalsIgnoreCase( state ) && ARG_ASSIGNEE_DATE_MODE_SKIP_CLOSED.equals( cacheMode ) ) {
+						// just skip
+					} else {
+						assignDate = handleAssignedIssue(issue, issueId, activeCache, info);
+					}
+				}
 			}
 			currentLine.add( FormatHelper.formatDate( assignDate, lang ) );
 		} else {

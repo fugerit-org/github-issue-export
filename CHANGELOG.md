@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- handles param 'assignee_date_mode' (when set to 'skip' the report is much faster)
+
 ## [1.1.0] - 2024-05-22
 
 ### Added

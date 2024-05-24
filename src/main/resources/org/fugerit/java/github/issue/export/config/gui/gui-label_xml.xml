@@ -26,6 +26,9 @@
 <entry key="label.input.state.closed"> Closed </entry>
 <entry key="label.input.state.open"> Open </entry>
 <entry key="label.input.state.all"> All </entry>
+<entry key="label.input.assignDate.label"> Assign date </entry>
+<entry key="label.input.assignDate.default"> Default </entry>
+<entry key="label.input.assignDate.skip"> Skip </entry>
 
 <entry key="label.input.proxy.title"> Proxy </entry>
 <entry key="label.input.proxy.host"> Host </entry>

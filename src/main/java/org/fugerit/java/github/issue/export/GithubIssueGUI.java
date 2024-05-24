@@ -68,11 +68,14 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 	private JTextField inputXlsPath;
 	private JTextField inputLocale;
 	
-	private JComboBox<String> inputStateCombo;
+	private JComboBox<String> inputStateCombo, inputAssignDateCombo;
 	
 	private String labelStateOpen;
 	private String labelStateClosed;
 	private String labelStateAll;
+
+	private String labelAssignDateDefault;
+	private String labelAssignDateSkip;
 	
 	private transient ResourceBundle lagelBundle;
 	
@@ -182,6 +185,7 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		this.inputRepoPass = new JPasswordField( savedPass );
 		this.inputXlsPath = newJTextField( this.config.getProperty( GithubIssueExport.ARG_XLSFILE, defaultInputText ) );
 		this.inputLocale = newJTextField( defaultLocale );
+		// input state combo
 		this.inputStateCombo = new JComboBox<>();
 		this.labelStateOpen = this.lagelBundle.getString( "label.input.state.open" );
 		this.labelStateClosed = this.lagelBundle.getString( "label.input.state.closed" );
@@ -199,7 +203,18 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 				this.inputStateCombo.setSelectedItem( this.labelStateAll );
 			}
 		}
-		
+		// input assign date handling combo
+		this.inputAssignDateCombo = new JComboBox<>();
+		this.labelAssignDateDefault = this.lagelBundle.getString( "label.input.assignDate.default" );
+		this.labelAssignDateSkip = this.lagelBundle.getString( "label.input.assignDate.skip" );
+		this.inputAssignDateCombo.addItem( this.labelAssignDateDefault );
+		this.inputAssignDateCombo.addItem( this.labelAssignDateSkip );
+		String selectedStateAssignDate = this.config.getProperty( GithubIssueExport.ARG_ASSIGNEE_DATE_MODE );
+		if ( GithubIssueExport.ARG_ASSIGNEE_DATE_MODE_SKIP.equalsIgnoreCase( selectedStateAssignDate ) ) {
+			this.inputAssignDateCombo.setSelectedItem( this.labelAssignDateSkip );
+		} else {
+			this.inputAssignDateCombo.setSelectedItem( this.labelAssignDateDefault );
+		}
 		// buttons
 		this.buttonSaveConfiguration = new JButton( this.lagelBundle.getString( "button.input.configuration.save" ) );
 		this.buttonSaveConfiguration.addActionListener( this );
@@ -246,7 +261,7 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		// add row
 		JPanel reportPanel2 = new JPanel( new GridLayout( 1 , 2 ) );
 		newRowPanel( newJLabel( this.lagelBundle.getString( "label.input.output.xls" ) ), this.inputXlsPath, reportPanel2 );
-		reportPanel2.add( new JLabel( "" ) );
+		newRowPanel( newJLabel( this.lagelBundle.getString( "label.input.assignDate.label" ) ), this.inputAssignDateCombo, reportPanel2 );
 		addRow( reportPanel2 , mainPanel );
 		// add row
 		addRow( new JLabel( "" ), mainPanel );
@@ -357,6 +372,9 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 		this.config.setProperty( GithubIssueExport.ARG_PROXY_PASS , new String( this.inputProxyPass.getPassword() ) );
 		this.config.setProperty( GithubIssueExport.ARG_GITHUB_USER , this.inputRepoUser.getText() );
 		this.config.setProperty( GithubIssueExport.ARG_GITHUB_PASS , new String( this.inputRepoPass.getPassword() ) );
+		if ( this.inputAssignDateCombo.getSelectedItem() == this.labelAssignDateSkip ) {
+			this.config.setProperty( GithubIssueExport.ARG_ASSIGNEE_DATE_MODE , GithubIssueExport.ARG_ASSIGNEE_DATE_MODE_SKIP );
+		}
 		String selectedState = this.inputStateCombo.getSelectedItem().toString();
 		if ( selectedState.equalsIgnoreCase( this.labelStateOpen ) ) {
 			this.config.setProperty( GithubIssueExport.ARG_STATE , GithubIssueExport.ARG_STATE_OPEN );	
@@ -364,6 +382,13 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 			this.config.setProperty( GithubIssueExport.ARG_STATE , GithubIssueExport.ARG_STATE_CLOSED );
 		} else if ( selectedState.equalsIgnoreCase( this.labelStateAll ) ) {
 			this.config.setProperty( GithubIssueExport.ARG_STATE , GithubIssueExport.ARG_STATE_ALL );
+		}
+		// skip assign date
+		String selectedStateAssignDateMode = this.inputAssignDateCombo.getSelectedItem().toString();
+		if ( selectedStateAssignDateMode.equalsIgnoreCase( this.labelAssignDateSkip ) ) {
+			this.config.setProperty( GithubIssueExport.ARG_ASSIGNEE_DATE_MODE , GithubIssueExport.ARG_ASSIGNEE_DATE_MODE_SKIP );
+		} else {
+			this.config.remove( GithubIssueExport.ARG_ASSIGNEE_DATE_MODE );
 		}
 		if ( source == this.buttonGenerateReport ) {
 			if ( StringUtils.isEmpty( this.inputXlsPath.getText() ) ) {
@@ -390,7 +415,7 @@ public class GithubIssueGUI extends JFrame implements WindowListener, ActionList
 				String baseText = this.lagelBundle.getString( "label.output.area.configuration.saved" );
 				this.outputArea.setText( baseText+" "+this.configSavePath.getAbsolutePath() );
 			} catch (Exception ex) {
-				logger.warn( "Failed to save configuration "+this.configSavePath, ex );
+				logger.warn( String.format( "Failed to save configuration %s", this.configSavePath ), ex );
 			}
 			this.config.setProperty( GithubIssueExport.ARG_GITHUB_PASS , tempPass1 );
 			this.config.setProperty( GithubIssueExport.ARG_PROXY_PASS , tempPass2 );	

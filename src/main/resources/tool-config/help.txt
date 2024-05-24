@@ -18,5 +18,7 @@ Example : java -jar target/dist-github-issue-export-*.jar
 
 	--lang <arg> Language code, currently supported : 'en', 'it'.
 
+	--assignee_date_mode <arg> Accepted value are 'all', 'skip', 'cache', 'skip-closed'. [default:all]
+
 	--help <arg> Print help about the tool.
 
