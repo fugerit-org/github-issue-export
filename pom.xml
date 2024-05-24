@@ -12,7 +12,7 @@
 	<groupId>org.fugerit.java</groupId>
 	<artifactId>github-issue-export</artifactId>
 
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<packaging>jar</packaging>
 
 	<name>github-issue-export</name>
